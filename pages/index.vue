@@ -1,12 +1,35 @@
 <template>
-  <h1>
-    Hello World!
-  </h1>
+  <div>
+    <h1>
+      Hello World!
+    </h1>
+    <!-- <slices-block :slices="slices" /> -->
+  </div>
 </template>
 
 <script>
+// import SlicesBlock from '~/components/prismic/SlicesBlock.vue'
+
 export default {
   name: 'Homepage',
+  // components: {
+  //  SlicesBlock
+  // },
+  async asyncData ({ $prismic, params, error }) {
+    try {
+      // Query to get post content
+      const post = (await $prismic.api.query([
+        $prismic.predicates.at('document.type', 'case_study')
+      ])).data
+      // Returns data to be used in template
+      return {
+        document: post
+      }
+    } catch (e) {
+      // Returns error page
+      error({ statusCode: 404, message: 'Page not found' })
+    }
+  },
   head () {
     return {
       title: '',

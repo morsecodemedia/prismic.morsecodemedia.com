@@ -53,8 +53,14 @@ export default {
   modules: [
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
-    '@nuxtjs/redirect-module'
+    '@nuxtjs/redirect-module',
+    '@nuxtjs/prismic'
   ],
+  prismic: {
+    endpoint: 'https://morsecodemedia.prismic.io/api/v2',
+    linkResolver: '@/plugins/link-resolver',
+    htmlSerializer: '@/plugins/html-serializer'
+  },
   sitemap: {
     hostname: 'https://www.domain.com',
     gzip: true,
