@@ -1,29 +1,35 @@
 <template>
   <div>
     <h1>
-      Hello World!
+      Projects
     </h1>
-    <!-- <slices-block :slices="slices" /> -->
+    <div v-if="projects">
+      <div
+        v-for="p in projects.results"
+        :key="p.uid"
+      >
+        <p>{{ p.data.project_title[0].text }}</p>
+      </div>
+    </div>
+    <div v-else>
+      <p>No results are available.</p>
+    </div>
   </div>
 </template>
 
 <script>
-// import SlicesBlock from '~/components/prismic/SlicesBlock.vue'
 
 export default {
   name: 'Homepage',
-  // components: {
-  //  SlicesBlock
-  // },
-  async asyncData ({ $prismic, params, error }) {
+  async asyncData ({ $prismic, error }) {
     try {
       // Query to get post content
-      const post = (await $prismic.api.query([
+      const projects = await $prismic.api.query([
         $prismic.predicates.at('document.type', 'case_study')
-      ])).data
+      ])
       // Returns data to be used in template
       return {
-        document: post
+        projects
       }
     } catch (e) {
       // Returns error page
