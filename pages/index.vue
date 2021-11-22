@@ -10,6 +10,17 @@
       >
         <p>{{ p.data.project_title[0].text }}</p>
       </div>
+      <nuxt-link
+        v-if="notFirstPage"
+        :to="prevPage"
+      >
+        &laquo; Previous Page
+      </nuxt-link>
+      <nuxt-link
+        :to="nextPage"
+      >
+        Next Page &raquo;
+      </nuxt-link>
     </div>
     <div v-else>
       <p>No results are available.</p>
@@ -21,19 +32,35 @@
 
 export default {
   name: 'Homepage',
-  async asyncData ({ $prismic, error }) {
+  async asyncData ({ $prismic, params, error }) {
     try {
-      // Query to get post content
-      const projects = await $prismic.api.query([
-        $prismic.predicates.at('document.type', 'case_study')
-      ])
-      // Returns data to be used in template
+      const projects = await $prismic.api.query(
+        [$prismic.predicates.at('document.type', 'case_study')],
+        {
+          pageSize: 10,
+          page: params.num,
+          orderings: '[my.case_study.uid]'
+        }
+      )
       return {
         projects
       }
     } catch (e) {
-      // Returns error page
-      error({ statusCode: 404, message: 'Page not found' })
+      console.log(e)
+    }
+  },
+  computed: {
+    notFirstPage () {
+      return this.$route.params.num > 1
+    },
+    prevPage () {
+      if (this.$route.params.num === '2') {
+        return '/'
+      }
+      return '/page/' + (this.$route.params.num - 1)
+    },
+    nextPage () {
+      return '/page/' + (this.$route.params.num + 1)
     }
   },
   head () {
