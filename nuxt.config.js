@@ -62,7 +62,7 @@ export default {
     htmlSerializer: '@/plugins/html-serializer'
   },
   sitemap: {
-    hostname: 'https://www.domain.com',
+    hostname: 'https://prismic.morsecodemedia.com',
     gzip: true,
     trailingSlash: true,
     defaults: {
@@ -80,7 +80,7 @@ export default {
   },
   robots: {
     UserAgent: '*',
-    Sitemap: 'https://www.domain.com/sitemap.xml'
+    Sitemap: 'https://prismic.morsecodemedia.com/sitemap.xml'
   },
   redirect: [],
   /*
