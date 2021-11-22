@@ -7,8 +7,16 @@
       <div
         v-for="p in projects.results"
         :key="p.uid"
+        class="project-card"
       >
-        <p>{{ p.data.project_title[0].text }}</p>
+        <h2>{{ p.data.project_title[0].text }}</h2>
+        <p>{{ p.data.client }}</p>
+        <p>{{ p.data.project_category }}</p>
+        <p>
+          <span>{{ p.data.year_start[0].text }}</span> -
+          <span v-if="p.data.year_end[0]">{{ p.data.year_end[0].text }}</span>
+          <span v-else>Present Day</span>
+        </p>
       </div>
       <nuxt-link
         v-if="notFirstPage"
@@ -35,11 +43,13 @@ export default {
   async asyncData ({ $prismic, params, error }) {
     try {
       const projects = await $prismic.api.query(
-        [$prismic.predicates.at('document.type', 'case_study')],
+        [
+          $prismic.predicates.at('document.type', 'case_study')
+        ],
         {
-          pageSize: 10,
+          pageSize: 100,
           page: params.num,
-          orderings: '[my.case_study.uid]'
+          orderings: '[my.case_study.year_start desc, my.case_study.year_end desc, my.case_study.client, my.case_study.project_title]'
         }
       )
       return {
@@ -86,5 +96,10 @@ export default {
 </script>
 
 <style>
-
+.project-card {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 25px;
+}
 </style>
