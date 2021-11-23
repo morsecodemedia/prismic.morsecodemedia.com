@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="page-projects">
     <h1>
       Projects
     </h1>
-    <div v-if="projects">
+    <div v-if="projects" class="project-list">
       <div
         v-for="p in projects.results"
         :key="p.uid"
@@ -96,10 +96,21 @@ export default {
 </script>
 
 <style>
+.page-projects {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
+}
+.project-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
 .project-card {
   border: 1px solid black;
   border-radius: 15px;
   padding: 10px;
-  margin-bottom: 25px;
+  margin: 12px;
+  width: 350px;
 }
 </style>
