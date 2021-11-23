@@ -18,17 +18,6 @@
           <span v-else>Present Day</span>
         </p>
       </div>
-      <nuxt-link
-        v-if="notFirstPage"
-        :to="prevPage"
-      >
-        &laquo; Previous Page
-      </nuxt-link>
-      <nuxt-link
-        :to="nextPage"
-      >
-        Next Page &raquo;
-      </nuxt-link>
     </div>
     <div v-else>
       <p>No results are available.</p>
@@ -57,20 +46,6 @@ export default {
       }
     } catch (e) {
       console.log(e)
-    }
-  },
-  computed: {
-    notFirstPage () {
-      return this.$route.params.num > 1
-    },
-    prevPage () {
-      if (this.$route.params.num === '2') {
-        return '/'
-      }
-      return '/page/' + (this.$route.params.num - 1)
-    },
-    nextPage () {
-      return '/page/' + (this.$route.params.num + 1)
     }
   },
   head () {
